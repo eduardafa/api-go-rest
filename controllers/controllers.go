@@ -45,3 +45,14 @@ func CreatePersonality(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error: ", errEncode)
 	}
 }
+
+func DeletePersonalityById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+	var personality models.Personality
+	database.DB.Delete(&personality, id)
+	errEncode := json.NewEncoder(w).Encode(personality)
+	if errEncode != nil {
+		fmt.Println("Error: ", errEncode)
+	}
+}
