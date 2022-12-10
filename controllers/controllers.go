@@ -56,3 +56,19 @@ func DeletePersonalityById(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error: ", errEncode)
 	}
 }
+
+func UpdatePersonalityById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+	var personality models.Personality
+	database.DB.First(&personality, id)
+	errDecode := json.NewDecoder(r.Body).Decode(&personality)
+	if errDecode != nil {
+		fmt.Println("Error: ", errDecode)
+	}
+	database.DB.Save(&personality)
+	errEncode := json.NewEncoder(w).Encode(personality)
+	if errEncode != nil {
+		fmt.Println("Error: ", errEncode)
+	}
+}
